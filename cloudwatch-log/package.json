@@ -1,0 +1,10 @@
+{
+  "name": "nodejs-example-logs-api-extension",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-cloudwatch-logs": "^3.121.0",
+    "axios": "0.27.2"
+  }
+}
