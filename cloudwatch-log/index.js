@@ -126,7 +126,15 @@ const getLogStreamName = () => {
         LogStreamToken[logStreamName] = res.nextSequenceToken
       }
     } catch (err) {
-      console.log(err)
+      if (err.expectedSequenceToken) {
+        try {
+          recordLogCommand['sequenceToken'] = err.expectedSequenceToken
+          const res = await client.send(new PutLogEventsCommand(recordLogCommand))
+          LogStreamToken[logStreamName] = res.nextSequenceToken
+        } catch (e) {
+          console.log(e)
+        }
+      }
     }
   }
 
@@ -144,7 +152,7 @@ const getLogStreamName = () => {
         await uploadLogs() // upload queued logs, during invoke event
         break
       default:
-        throw new Error('unknown event: ' + event.eventType)
+        break
     }
   }
 })()
